@@ -2,15 +2,20 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Escáner de Códigos de Barras</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Escaneo de Código QR</title>
   <link rel="stylesheet" href="estilos.css">
-  <script src="https://unpkg.com/@zxing/browser@latest"></script>
 </head>
 <body>
-  <h1>Escáner de Códigos de Barras</h1>
-  <video id="video" width="300" height="200" style="border: 1px solid black;"></video>
-  <p id="resultado"></p>
+  <h1>Escanear Código QR</h1>
+  <div>
+    <video id="video" width="300" height="200" autoplay></video>
+  </div>
+  <div>
+    <p id="resultado">Esperando código...</p>
+  </div>
   <button id="cambiarCamara">Cambiar Cámara</button>
+  <script src="https://unpkg.com/@zxing/library@0.18.5"></script>
   <script src="script.js"></script>
 </body>
 </html>

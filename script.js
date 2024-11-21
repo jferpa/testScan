@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
           codeReader.decodeFromVideoDevice(deviceId, 'video', (result, err) => {
             if (result) {
               resultado.textContent = `Código detectado: ${result.getText()}`;
-              const audio = new Audio('scanweb/sonido.mp3');
+              const audio = new Audio('sonido.mp3');
               audio.play();
             }
             if (err) {
