@@ -2,14 +2,14 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Escáner de Códigos de Barras</title>
   <link rel="stylesheet" href="estilos.css">
-  <script src="https://unpkg.com/@zxing/browser@latest"></script>
 </head>
 <body>
   <h1>Escáner de Códigos de Barras</h1>
-  <video id="video" width="300" height="200" style="border: 1px solid black;"></video>
-  <p id="resultado"></p>
-  <script src="script.js"></script>
+  <video id="video" width="100%" height="auto" autoplay></video>
+  <script src="https://unpkg.com/@zxing/library@0.18.6/umd/index.min.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
