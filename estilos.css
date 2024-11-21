@@ -1,0 +1,14 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 20px;
+  }
+  #video {
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+  }
+  #resultado {
+    font-size: 1.2em;
+    color: #333;
+  }
+  
