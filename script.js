@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const video = document.getElementById('video');
     const resultado = document.getElementById('resultado');
     const cambiarCamaraBtn = document.getElementById('cambiarCamara');
+    const iniciarCamaraBtn = document.getElementById('iniciarCamara'); // Botón para iniciar cámara
 
     let currentStream = null;
     let currentDeviceId = null;
@@ -88,9 +89,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Inicializar la aplicación
-    obtenerDispositivos();
+    // Iniciar la cámara al hacer clic en el botón
+    iniciarCamaraBtn.addEventListener('click', () => {
+        obtenerDispositivos(); // Solo se llama al obtener dispositivos cuando se hace clic en "Iniciar Cámara"
+    });
 
     // Evento para cambiar de cámara
-    cambiarCamaraBtn.addEventListener('click', cambiarCamara);
-});
+    cambiarCamaraBtn.addEventListener('click
