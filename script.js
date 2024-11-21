@@ -31,13 +31,18 @@ document.addEventListener('DOMContentLoaded', () => {
       if (currentStream) {
         detenerCamara();
       }
+  
       const constraints = {
         video: { deviceId: { exact: deviceId } }
       };
+  
+      // Solicitar el permiso de la cámara
       navigator.mediaDevices.getUserMedia(constraints)
         .then((stream) => {
           currentStream = stream;
           video.srcObject = stream;
+  
+          // Iniciar la decodificación de código de barras
           codeReader.decodeFromVideoDevice(deviceId, 'video', (result, err) => {
             if (result) {
               resultado.textContent = `Código detectado: ${result.getText()}`;
