@@ -12,9 +12,9 @@ codeReader
       audio.play();
     }
     if (err) {
-      resultado.textContent = `Error: ${err}`;
+      resultado.textContent = `Error dentro: ${err}`;
     }
   })
   .catch((err) => {
-    resultado.textContent = `Error: ${err}`;
+    resultado.textContent = `Error fuera: ${err}`;
   });
