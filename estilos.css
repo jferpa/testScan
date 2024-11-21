@@ -7,6 +7,7 @@ body {
 video {
     border: 2px solid black;
     margin-bottom: 10px;
+    max-width: 100%; /* Asegura que el video sea responsivo */
 }
 
 button {

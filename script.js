@@ -12,11 +12,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Función para obtener la lista de dispositivos de video disponibles
     async function obtenerDispositivos() {
         try {
+            // Enumerar todos los dispositivos multimedia disponibles
             const mediaDevices = await navigator.mediaDevices.enumerateDevices();
             devices = mediaDevices.filter(device => device.kind === 'videoinput');
+            console.log(devices); // Ver los dispositivos detectados
+
+            // Si encontramos dispositivos de entrada de video, iniciar la cámara
             if (devices.length > 0) {
-                // Verificamos si ya tenemos un ID de dispositivo
-                currentDeviceId = devices[0].deviceId;
+                currentDeviceId = devices[0].deviceId; // Establecer el primer dispositivo como cámara predeterminada
                 iniciarCamara(currentDeviceId);
             } else {
                 resultado.textContent = 'No se encontraron cámaras disponibles.';
@@ -30,19 +33,20 @@ document.addEventListener('DOMContentLoaded', () => {
     // Función para iniciar la cámara con un dispositivo específico
     function iniciarCamara(deviceId) {
         if (currentStream) {
-            detenerCamara();
+            detenerCamara(); // Detener la cámara si ya hay una en uso
         }
 
         const constraints = {
-            video: { deviceId: { exact: deviceId } }
+            video: { deviceId: { exact: deviceId } } // Usamos el ID del dispositivo para obtener la cámara específica
         };
 
-        // Solicitar el permiso de la cámara
+        // Solicitar permiso para acceder a la cámara
         navigator.mediaDevices.getUserMedia(constraints)
             .then((stream) => {
+                console.log('Cámara activada'); // Asegúrate de que la cámara está activada
                 currentStream = stream;
                 video.srcObject = stream;
-                video.play(); // Aseguramos que la cámara comience a reproducirse
+                video.play(); // Reproducir el video de la cámara
 
                 // Iniciar la decodificación de código de barras
                 codeReader.decodeFromVideoDevice(deviceId, 'video', (result, err) => {
@@ -67,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function detenerCamara() {
         if (currentStream) {
             const tracks = currentStream.getTracks();
-            tracks.forEach(track => track.stop());
+            tracks.forEach(track => track.stop()); // Detener todas las pistas de video
             video.srcObject = null;
         }
     }
@@ -76,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function cambiarCamara() {
         if (devices.length > 1) {
             const currentIndex = devices.findIndex(device => device.deviceId === currentDeviceId);
-            const nextIndex = (currentIndex + 1) % devices.length;
+            const nextIndex = (currentIndex + 1) % devices.length; // Cambiar al siguiente dispositivo en la lista
             currentDeviceId = devices[nextIndex].deviceId;
             iniciarCamara(currentDeviceId);
         } else {
