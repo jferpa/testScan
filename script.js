@@ -1,21 +1,29 @@
 const video = document.getElementById('video');
-const resultado = document.getElementById('resultado');
 
-const codeReader = new ZXing.BrowserBarcodeReader();
+// Solicitar acceso a la cámara
+navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+  .then((stream) => {
+    video.srcObject = stream;
+    const track = stream.getTracks()[0];
+    const imageCapture = new ImageCapture(track);
 
-codeReader
-  .decodeFromVideoDevice(null, 'video', (result, err) => {
-    if (result) {
-      resultado.textContent = `Código detectado: ${result.getText()}`;
-      // Reproducir sonido al detectar un código
-      const audio = new Audio('sonido.mp3');
-      audio.play();
-    }
-    if (err) {
-      resultado.textContent = `Error dentro : ${err}`;
-    }
+    // Función para capturar fotogramas y detectar códigos de barras
+    const detectBarcode = () => {
+      imageCapture.grabFrame()
+        .then((imageBitmap) => {
+          // Aquí puedes integrar una librería para detectar códigos de barras
+          // Si se detecta un código de barras, reproducir un sonido
+          const audio = new Audio('beep.mp3');
+          audio.play();
+        })
+        .catch((error) => {
+          console.error('Error al capturar fotograma:', error);
+        });
+    };
+
+    // Detectar códigos de barras cada 100ms
+    setInterval(detectBarcode, 100);
   })
-  .catch((err) => {
-    resultado.textContent = `Error fuera: ${err}`;
-    
+  .catch((error) => {
+    console.error('No se pudo acceder a la cámara:', error);
   });
