@@ -1,21 +1,17 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Escaneo de Código QR</title>
-  <link rel="stylesheet" href="estilos.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escáner de Código de Barras</title>
+    <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
-  <h1>Escanear Código QR</h1>
-  <div>
+    <h1>Escáner de Código de Barras</h1>
     <video id="video" width="300" height="200" autoplay></video>
-  </div>
-  <div>
-    <p id="resultado">Esperando código...</p>
-  </div>
-  <button id="cambiarCamara">Cambiar Cámara</button>
-  <script src="https://unpkg.com/@zxing/library@0.18.5"></script>
-  <script src="script.js"></script>
+    <p id="resultado"></p>
+    <button id="cambiarCamara">Cambiar Cámara</button>
+    <script src="https://cdn.jsdelivr.net/npm/@zxing/library@0.18.6/dist/index.min.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
