@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const mediaDevices = await navigator.mediaDevices.enumerateDevices();
             devices = mediaDevices.filter(device => device.kind === 'videoinput');
             if (devices.length > 0) {
+                // Verificamos si ya tenemos un ID de dispositivo
                 currentDeviceId = devices[0].deviceId;
                 iniciarCamara(currentDeviceId);
             } else {
@@ -41,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .then((stream) => {
                 currentStream = stream;
                 video.srcObject = stream;
+                video.play(); // Aseguramos que la cámara comience a reproducirse
 
                 // Iniciar la decodificación de código de barras
                 codeReader.decodeFromVideoDevice(deviceId, 'video', (result, err) => {
@@ -57,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .catch((err) => {
                 console.error('Error al acceder a la cámara:', err);
-                resultado.textContent = 'Error al acceder a la cámara.';
+                resultado.textContent = 'Error al acceder a la cámara. Asegúrate de que los permisos estén habilitados.';
             });
     }
 
