@@ -4,15 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Escaner de Códigos QR</title>
-    <link rel="stylesheet" href="estilos.css">
+    <!-- Carga de la biblioteca ZXing desde CDN -->
+    <script type="text/javascript" src="https://unpkg.com/@zxing/library@0.18.6/umd/index.min.js"></script>
 </head>
 <body>
-    <h1>Escaner de Códigos QR</h1>
-    <button id="iniciarCamara">Iniciar Cámara</button> <!-- Botón para iniciar la cámara -->
+    <h1>Escanear Código QR</h1>
+
+    <!-- Video de la cámara -->
     <video id="video" width="100%" height="auto" autoplay></video>
-    <p id="resultado">Escanea un código QR</p>
+
+    <!-- Área para mostrar los resultados -->
+    <div id="resultado"></div>
+
+    <!-- Botones para iniciar y cambiar la cámara -->
+    <button id="iniciarCamara">Iniciar Cámara</button>
     <button id="cambiarCamara">Cambiar Cámara</button>
-    <script src="https://unpkg.com/@zxing/library@latest/dist/index.min.js"></script>    <!-- ZXing Library -->
+
+    <!-- Carga de script.js -->
     <script src="script.js"></script>
 </body>
 </html>
