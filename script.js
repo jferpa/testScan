@@ -107,4 +107,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Evento para cambiar de cámara
     cambiarCamaraBtn.addEventListener('click', cambiarCamara);
+    //ds
 });
