@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const video = document.getElementById('video');
     const resultado = document.getElementById('resultado');
     const cambiarCamaraBtn = document.getElementById('cambiarCamara');
-    const iniciarCamaraBtn = document.getElementById('iniciarCamara'); // Botón para iniciar cámara
+    const iniciarCamaraBtn = document.getElementById('iniciarCamara'); // Botón para iniciar la cámara
 
     let currentStream = null;
     let currentDeviceId = null;
@@ -95,4 +95,5 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Evento para cambiar de cámara
-    cambiarCamaraBtn.addEventListener('click
+    cambiarCamaraBtn.addEventListener('click', cambiarCamara);
+});
