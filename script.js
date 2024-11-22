@@ -10,21 +10,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const codeReader = new ZXing.BrowserQRCodeReader();
 
-    // Asegúrate de que ZXing esté cargado correctamente
-    if (typeof ZXing === 'undefined') {
-        console.error('ZXing no está definido. Asegúrate de que la biblioteca se haya cargado correctamente.');
-        return;
-    }
-
     // Función para obtener la lista de dispositivos de video disponibles
     async function obtenerDispositivos() {
         try {
+            // Enumerar todos los dispositivos multimedia disponibles
             const mediaDevices = await navigator.mediaDevices.enumerateDevices();
             devices = mediaDevices.filter(device => device.kind === 'videoinput');
             console.log(devices); // Ver los dispositivos detectados
 
+            // Si encontramos dispositivos de entrada de video, iniciar la cámara
             if (devices.length > 0) {
-                currentDeviceId = devices[0].deviceId;
+                currentDeviceId = devices[0].deviceId; // Establecer el primer dispositivo como cámara predeterminada
                 iniciarCamara(currentDeviceId);
             } else {
                 resultado.textContent = 'No se encontraron cámaras disponibles.';
@@ -42,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const constraints = {
-            video: { deviceId: { exact: deviceId } }
+            video: { deviceId: { exact: deviceId } } // Usamos el ID del dispositivo para obtener la cámara específica
         };
 
         // Solicitar permiso para acceder a la cámara
@@ -68,14 +64,10 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .catch((err) => {
                 console.error('Error al acceder a la cámara:', err);
-                // Mensaje de error específico si los permisos no están habilitados
-                if (err.name === 'NotAllowedError') {
-                    resultado.textContent = 'No se han concedido permisos para acceder a la cámara.';
-                } else if (err.name === 'NotFoundError') {
-                    resultado.textContent = 'No se encontraron cámaras disponibles.';
-                } else {
-                    resultado.textContent = 'Error al acceder a la cámara. Asegúrate de que los permisos estén habilitados.';
-                }
+                resultado.textContent = 'Error al acceder a la cámara. Asegúrate de que los permisos estén habilitados.';
+                
+                // Si ocurre un error, muestra un mensaje de alerta para que el usuario active los permisos
+                alert('No se puede acceder a la cámara. Asegúrate de haber habilitado los permisos en la configuración del navegador.');
             });
     }
 
@@ -92,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function cambiarCamara() {
         if (devices.length > 1) {
             const currentIndex = devices.findIndex(device => device.deviceId === currentDeviceId);
-            const nextIndex = (currentIndex + 1) % devices.length;
+            const nextIndex = (currentIndex + 1) % devices.length; // Cambiar al siguiente dispositivo en la lista
             currentDeviceId = devices[nextIndex].deviceId;
             iniciarCamara(currentDeviceId);
         } else {
@@ -107,5 +99,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Evento para cambiar de cámara
     cambiarCamaraBtn.addEventListener('click', cambiarCamara);
-    //ds
 });
