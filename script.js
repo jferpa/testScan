@@ -8,12 +8,13 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentDeviceId = null;
     let devices = [];
 
+    const codeReader = new ZXing.BrowserQRCodeReader();
+
     // Asegúrate de que ZXing esté cargado correctamente
     if (typeof ZXing === 'undefined') {
         console.error('ZXing no está definido. Asegúrate de que la biblioteca se haya cargado correctamente.');
         return;
     }
-    const codeReader = new ZXing.BrowserQRCodeReader();
 
     // Función para obtener la lista de dispositivos de video disponibles
     async function obtenerDispositivos() {
@@ -37,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Función para iniciar la cámara con un dispositivo específico
     function iniciarCamara(deviceId) {
         if (currentStream) {
-            detenerCamara();
+            detenerCamara(); // Detener la cámara si ya hay una en uso
         }
 
         const constraints = {
@@ -67,7 +68,14 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .catch((err) => {
                 console.error('Error al acceder a la cámara:', err);
-                resultado.textContent = 'Error al acceder a la cámara. Asegúrate de que los permisos estén habilitados.';
+                // Mensaje de error específico si los permisos no están habilitados
+                if (err.name === 'NotAllowedError') {
+                    resultado.textContent = 'No se han concedido permisos para acceder a la cámara.';
+                } else if (err.name === 'NotFoundError') {
+                    resultado.textContent = 'No se encontraron cámaras disponibles.';
+                } else {
+                    resultado.textContent = 'Error al acceder a la cámara. Asegúrate de que los permisos estén habilitados.';
+                }
             });
     }
 
@@ -75,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function detenerCamara() {
         if (currentStream) {
             const tracks = currentStream.getTracks();
-            tracks.forEach(track => track.stop());
+            tracks.forEach(track => track.stop()); // Detener todas las pistas de video
             video.srcObject = null;
         }
     }
