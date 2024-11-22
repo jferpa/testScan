@@ -8,19 +8,22 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentDeviceId = null;
     let devices = [];
 
+    // Asegúrate de que ZXing esté cargado correctamente
+    if (typeof ZXing === 'undefined') {
+        console.error('ZXing no está definido. Asegúrate de que la biblioteca se haya cargado correctamente.');
+        return;
+    }
     const codeReader = new ZXing.BrowserQRCodeReader();
 
     // Función para obtener la lista de dispositivos de video disponibles
     async function obtenerDispositivos() {
         try {
-            // Enumerar todos los dispositivos multimedia disponibles
             const mediaDevices = await navigator.mediaDevices.enumerateDevices();
             devices = mediaDevices.filter(device => device.kind === 'videoinput');
             console.log(devices); // Ver los dispositivos detectados
 
-            // Si encontramos dispositivos de entrada de video, iniciar la cámara
             if (devices.length > 0) {
-                currentDeviceId = devices[0].deviceId; // Establecer el primer dispositivo como cámara predeterminada
+                currentDeviceId = devices[0].deviceId;
                 iniciarCamara(currentDeviceId);
             } else {
                 resultado.textContent = 'No se encontraron cámaras disponibles.';
@@ -34,11 +37,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Función para iniciar la cámara con un dispositivo específico
     function iniciarCamara(deviceId) {
         if (currentStream) {
-            detenerCamara(); // Detener la cámara si ya hay una en uso
+            detenerCamara();
         }
 
         const constraints = {
-            video: { deviceId: { exact: deviceId } } // Usamos el ID del dispositivo para obtener la cámara específica
+            video: { deviceId: { exact: deviceId } }
         };
 
         // Solicitar permiso para acceder a la cámara
@@ -72,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function detenerCamara() {
         if (currentStream) {
             const tracks = currentStream.getTracks();
-            tracks.forEach(track => track.stop()); // Detener todas las pistas de video
+            tracks.forEach(track => track.stop());
             video.srcObject = null;
         }
     }
@@ -81,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function cambiarCamara() {
         if (devices.length > 1) {
             const currentIndex = devices.findIndex(device => device.deviceId === currentDeviceId);
-            const nextIndex = (currentIndex + 1) % devices.length; // Cambiar al siguiente dispositivo en la lista
+            const nextIndex = (currentIndex + 1) % devices.length;
             currentDeviceId = devices[nextIndex].deviceId;
             iniciarCamara(currentDeviceId);
         } else {
